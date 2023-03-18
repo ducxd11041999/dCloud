@@ -5,9 +5,9 @@ import (
 	"log"
 	"net"
 
-	pb "dCloud/protobuf/reply" // import your protobuf package
-
-	"google.golang.org/grpc"
+	grpc "google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
+	pb "my-project/dCloud/protobuf/reply"
 )
 
 const (
@@ -16,22 +16,24 @@ const (
 
 type server struct{}
 
-func (s *server) SayHello(ctx context.Context, in *pb.Request) (*pb.Response, error) {
-	log.Printf("Received request with message: %s", in.Message)
-	return &pb.Response{Message: "Hello from A"}, nil
+// ReplyService implement gRPC server
+type ReplyService struct{}
+
+// SayHello implement ReplyService
+func (s *ReplyService) SayHello(ctx context.Context, in *pb.Request) (*pb.Response, error) {
+	log.Printf("Received: %v", in.Message)
+	return &pb.Response{Message: "service reply"}, nil
 }
 
 func main() {
-	// create a gRPC server and register the service
-	s := grpc.NewServer()
-	pb.RegisterReplyServer(s, &server{})
-
-	// create a listener and start the server
+	// Start gRPC server
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	log.Printf("Listening on port %s...", port)
+	s := grpc.NewServer()
+	pb.RegisterReplyServer(s, &ReplyService{})
+	reflection.Register(s)
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

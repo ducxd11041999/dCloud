@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package reply;
 
-option go_package = "dCloud/protobuf/reply;reply";
+option go_package = "my-project/dCloud/protobuf/reply;reply";
 
 
 message Request {

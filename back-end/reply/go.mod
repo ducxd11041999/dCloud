@@ -1,12 +1,12 @@
-module dCloud/back-end/reply
+module my-project/dCloud/back-end/reply
 
-go 1.20
+go 1.19
 
-replace dCloud/protobuf => ../../protobuf
+replace my-project/dCloud/protobuf => ../../protobuf
 
 require (
-	dCloud/protobuf v0.0.0-00010101000000-000000000000
 	google.golang.org/grpc v1.53.0
+	my-project/dCloud/protobuf v0.0.0-00010101000000-000000000000
 )
 
 require (
