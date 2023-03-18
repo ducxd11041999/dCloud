@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package reply;
+
+option go_package = "dCloud/protobuf/reply;reply";
+
+
+message Request {
+  string message = 1;
+}
+
+message Response {
+  string message = 1;
+}
+
+service Reply {
+  rpc SayHello(Request) returns (Response) {}
+}
